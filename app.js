@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Trading Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <select id="tokenSelect">
@@ -13,6 +13,6 @@
     </select>
     <canvas id="candleChart"></canvas>
 
-    <script src="app.js"></script> <!-- Your JavaScript will go here -->
+    <script src="app.js"></script> 
 </body>
 </html>
