@@ -57,7 +57,7 @@ document.getElementById('tokenSelect').addEventListener('change', function() {
     fetchData(this.value);
 });
 
-let refreshIntervalId; // Variable to store the interval ID
+let refreshIntervalId; // Variable to store the interval IDS
 
 // Function to start the data refresh process
 function startDataRefresh(token, refreshRate) {
