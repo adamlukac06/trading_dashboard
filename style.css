@@ -1,0 +1,72 @@
+body {
+    font-family: Bahnschrift, sans-serif;
+    background-color: #00001a;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style for the chart container */
+#candleChart {
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Style for the dropdown and input elements */
+#tokenSelect,
+#refreshRateInput {
+    background-color: #10113E;
+    color: #FFFFFF;
+    border: 1px solid #844DE2;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    width:  10;
+    box-sizing: border-box;
+}
+
+/* Style for buttons */
+#setRefreshRate {
+    background-color: #844DE2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#setRefreshRate:hover {
+    background-color: #904CE3;
+}
+
+/* General layout adjustments */
+.main-container {
+    width: 80%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    background-color: #10113E;
+    border-radius: 80px;
+    border: 1px solid #844DE2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    #tokenSelect,
+    #refreshRateInput {
+        width: calc(100% - 22px); /* Adjust width for smaller devices */
+    }
+
+    .main-container {
+        width: 95%;
+    }
+}
