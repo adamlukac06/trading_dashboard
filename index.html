@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Trading Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
-    <script src="https://unpkg.com/chartjs-chart-financial"></script> <!-- chartjs-chart-financial library -->
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        #candleChart {
+            height: 300px;
+            width: 600px;
+        }
+    </style>
 </head>
 <body>
     <select id="tokenSelect">
@@ -12,8 +17,10 @@
         <option value="ETHUSDT">ETHUSDT</option>
         <option value="XRPUSDT">XRPUSDT</option>
     </select>
-    <canvas id="candleChart"></canvas>
+    <input type="number" id="refreshRateInput" placeholder="Enter refresh rate in milliseconds" />
+    <button id="setRefreshRate">Set Refresh Rate</button>
+    <div id="candleChart"></div>
 
-    <script src="app.js"></script> <!-- Your JavaScript will go here -->
+    <script src="app.js"></script>
 </body>
 </html>
