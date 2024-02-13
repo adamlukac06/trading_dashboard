@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-var ctx = document.getElementById('candleChart').getContext('2d');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Trading Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include chartjs-chart-financial -->
+    <script src="https://unpkg.com/chartjs-chart-financial"></script>
 </head>
 <body>
     <select id="tokenSelect">
@@ -14,6 +16,6 @@ var ctx = document.getElementById('candleChart').getContext('2d');
     </select>
     <canvas id="candleChart"></canvas>
 
-    <script src="app.js"></script> <!-- Your JavaScript will go here -->
+    <script src="app.js"></script>
 </body>
 </html>
