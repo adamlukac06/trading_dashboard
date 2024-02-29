@@ -3,8 +3,8 @@ const chart = LightweightCharts.createChart(document.getElementById('candleChart
     width: 600,
     height: 300,
     layout: {
-        backgroundColor: '#000000',
-        textColor: 'rgba(255, 255, 255, 0.9)',
+        background: '#844DE2', // Match the body background color
+        textColor: 'rgba(255, 255, 255, 0.9)', // Keep as is or adjust to match exact color
     },
     grid: {
         vertLines: {

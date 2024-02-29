@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column; /* Change from row (default) to column */
 }
 
 /* Style for the chart container */
