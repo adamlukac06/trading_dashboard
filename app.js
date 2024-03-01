@@ -1,9 +1,9 @@
 // Initialize the chart
 const chart = LightweightCharts.createChart(document.getElementById('candleChart'), {
-    width: 600,
-    height: 300,
+    width: 800,
+    height: 500,
     layout: {
-        background: '#844DE2', // Match the body background color
+        background: { color: '#00001a' }, // Match the body background color
         textColor: 'rgba(255, 255, 255, 0.9)', // Keep as is or adjust to match exact color
     },
     grid: {
@@ -27,40 +27,60 @@ const chart = LightweightCharts.createChart(document.getElementById('candleChart
 
 // Add a candlestick series to the chart
 const candleSeries = chart.addCandlestickSeries({
-    upColor: 'rgba(255, 144, 0, 1)',
-    downColor: '#000',
-    borderDownColor: 'rgba(255, 144, 0, 1)',
-    borderUpColor: 'rgba(255, 144, 0, 1)',
-    wickDownColor: 'rgba(255, 144, 0, 1)',
-    wickUpColor: 'rgba(255, 144, 0, 1)',
+    upColor: 'green',
+    downColor: 'red',
+    borderDownColor: 'red',
+    borderUpColor: 'green',
+    wickDownColor: 'red',
+    wickUpColor: 'green',
 });
 
 // Function to fetch and display data for the selected token
 async function fetchData(token) {
-    const response = await fetch(`https://api.binance.com/api/v3/klines?symbol=${token}&interval=1d&limit=100`);
-    const data = await response.json();
-    const formattedData = data.map(d => ({
+    // Fetch candlestick data from Binance
+    const candleResponse = await fetch(`https://api.binance.com/api/v3/klines?symbol=${token}&interval=1d&limit=100`);
+    const candleData = await candleResponse.json();
+    const formattedCandleData = candleData.map(d => ({
         time: d[0] / 1000, // Convert timestamp from milliseconds to seconds
         open: parseFloat(d[1]),
         high: parseFloat(d[2]),
         low: parseFloat(d[3]),
         close: parseFloat(d[4]),
     }));
-    candleSeries.setData(formattedData);
+    candleSeries.setData(formattedCandleData);
+
+    // Map the token to CoinGecko's cryptocurrency ID
+    // This mapping needs to be adjusted based on the tokens you're interested in
+    const coinGeckoIdMap = {
+        'BTCUSDT': 'bitcoin',
+        'ETHUSDT': 'ethereum',
+        'XRPUSDT': 'ripple',
+        // Add more mappings as needed
+    };
+    const coinGeckoId = coinGeckoIdMap[token];
+
+    // Fetch market cap data from CoinGecko
+    if (coinGeckoId) {
+        try {
+            const url = `https://api.coingecko.com/api/v3/coins/${coinGeckoId}`;
+            const marketCapResponse = await fetch(url);
+            const marketCapData = await marketCapResponse.json();
+            const marketCap = marketCapData.market_data.market_cap.usd; // Access the market cap in USD
+            document.getElementById('marketCap').innerText = `Market Cap: $${marketCap.toLocaleString()}`;
+        } catch (error) {
+            console.error("Failed to fetch market cap from CoinGecko:", error);
+            // Optionally, handle the error in the UI
+        }
+    } else {
+        console.error("CoinGecko ID not found for token:", token);
+        // Optionally, handle this case in the UI
+    }
 }
 
-// Initial fetch for BTCUSDT
-fetchData('BTCUSDT');
-
-// Event listener for the dropdown
-document.getElementById('tokenSelect').addEventListener('change', function() {
-    fetchData(this.value);
-});
-
-let refreshIntervalId; // Variable to store the interval IDS
+let refreshIntervalId; // Ensure this is declared at the top level of your script
 
 // Function to start the data refresh process
-function startDataRefresh(token, refreshRate) {
+function startDataRefresh(refreshRate) {
     // Clear any existing interval to prevent multiple intervals running
     if (refreshIntervalId) {
         clearInterval(refreshIntervalId);
@@ -68,20 +88,21 @@ function startDataRefresh(token, refreshRate) {
 
     // Set a new interval with the specified refresh rate
     refreshIntervalId = setInterval(() => {
-        fetchData(token);
+        const currentToken = document.getElementById('tokenSelect').value;
+        fetchData(currentToken);
     }, refreshRate);
 }
 
-// Set an initial refresh rate for the chart (optional)
-const initialRefreshRate = 300000; // Example: 5 minutes in milliseconds
-startDataRefresh(document.getElementById('tokenSelect').value, initialRefreshRate);
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial fetch for BTCUSDT
+    fetchData('BTCUSDT');
 
-// Event listener for the Set Refresh Rate button
-document.getElementById('setRefreshRate').addEventListener('click', function() {
-    const refreshRate = document.getElementById('refreshRateInput').value; // Get the user input
-    if (refreshRate) {
-        startDataRefresh(document.getElementById('tokenSelect').value, parseInt(refreshRate, 10));
-    } else {
-        alert('Please enter a valid refresh rate.');
-    }
+    // Event listener for the dropdown
+    document.getElementById('tokenSelect').addEventListener('change', function() {
+        fetchData(this.value);
+    });
+
+    // Set an initial refresh rate for the chart
+    const fixedRefreshRate = 1000; // Set refresh rate to 1000ms
+    startDataRefresh(fixedRefreshRate);
 });

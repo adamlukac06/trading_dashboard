@@ -13,7 +13,7 @@ body {
 
 /* Style for the chart container */
 #candleChart {
-    max-width: 600px;
+    max-width: 800px; /* Increased from 600px */
     margin: 20px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -27,24 +27,10 @@ body {
     border-radius: 4px;
     padding: 10px;
     margin: 10px 0;
-    width:  10;
+    width:  150px; /* Adjust width for smaller devices */
     box-sizing: border-box;
 }
 
-/* Style for buttons */
-#setRefreshRate {
-    background-color: #844DE2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#setRefreshRate:hover {
-    background-color: #904CE3;
-}
 
 /* General layout adjustments */
 .main-container {
@@ -60,12 +46,28 @@ body {
     align-items: center;
 }
 
+/* New styles for the chart and market cap container */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Ensure items are stacked vertically */
+    margin-bottom: 20px; /* Add space below the chart */
+}
+
+/* Style for the market cap display */
+#marketCap {
+    background-color: #10113E;
+    color: #FFFFFF;
+    padding: 10px;
+    margin-right: 20px; /* Adjust spacing between market cap and chart */
+    border: 1px solid #844DE2;
+    border-radius: 4px;
+}
+
 /* Adjustments for smaller screens */
 @media (max-width: 768px) {
     #tokenSelect,
-    #refreshRateInput {
-        width: calc(100% - 22px); /* Adjust width for smaller devices */
-    }
 
     .main-container {
         width: 95%;

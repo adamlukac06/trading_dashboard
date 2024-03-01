@@ -7,21 +7,21 @@
     <link rel="stylesheet" href="style.css">
     <style>
         #candleChart {
-            height: 300px;
-            width: 600px;
+            height: 500px;
+            width: 800px;
         }
     </style>
 </head>
 <body>
-    <div id="candleChart"></div>
-    <select id="tokenSelect">
-        <option value="BTCUSDT">BTCUSDT</option>
-        <option value="ETHUSDT">ETHUSDT</option>
-        <option value="XRPUSDT">XRPUSDT</option>
-    </select>
-    <input type="number" id="refreshRateInput" placeholder="Enter refresh rate in milliseconds" />
-    <button id="setRefreshRate">Set Refresh Rate</button>
-
+    <div class="chart-container">
+        <div id="candleChart"></div>
+        <div id="marketCap">Market Cap: $0</div>
+        <select id="tokenSelect">
+            <option value="BTCUSDT">BTCUSDT</option>
+            <option value="ETHUSDT">ETHUSDT</option>
+            <option value="XRPUSDT">XRPUSDT</option>
+        </select>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>
