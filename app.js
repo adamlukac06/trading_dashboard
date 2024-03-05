@@ -35,6 +35,14 @@ const candleSeries = chart.addCandlestickSeries({
     wickUpColor: 'green',
 });
 
+// Move the coinGeckoIdMap to a higher scope
+let coinGeckoIdMap = {
+    'BTCUSDT': 'bitcoin',
+    'ETHUSDT': 'ethereum',
+    'XRPUSDT': 'ripple',
+    // Existing mappings
+};
+
 // Function to fetch and display data for the selected token
 async function fetchData(token) {
     // Fetch candlestick data from Binance
@@ -49,14 +57,6 @@ async function fetchData(token) {
     }));
     candleSeries.setData(formattedCandleData);
 
-    // Map the token to CoinGecko's cryptocurrency ID
-    // This mapping needs to be adjusted based on the tokens you're interested in
-    const coinGeckoIdMap = {
-        'BTCUSDT': 'bitcoin',
-        'ETHUSDT': 'ethereum',
-        'XRPUSDT': 'ripple',
-        // Add more mappings as needed
-    };
     const coinGeckoId = coinGeckoIdMap[token];
 
     // Fetch market cap data from CoinGecko
@@ -94,6 +94,13 @@ function startDataRefresh(refreshRate) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Load saved coins
+    const savedCoins = JSON.parse(localStorage.getItem('coins')) || [];
+    savedCoins.forEach(coinSymbol => {
+        const option = new Option(coinSymbol, coinSymbol);
+        document.getElementById('tokenSelect').add(option);
+    });
+
     // Initial fetch for BTCUSDT
     fetchData('BTCUSDT');
 
@@ -106,3 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const fixedRefreshRate = 1000; // Set refresh rate to 1000ms
     startDataRefresh(fixedRefreshRate);
 });
+document.getElementById('addCoinButton').addEventListener('click', addNewCoin);
+
+async function addNewCoin() {
+    const newCoinSymbol = document.getElementById('newCoinSymbol').value.toUpperCase();
+    const newCoinGeckoId = document.getElementById('newCoinGeckoId').value; // Get the CoinGecko ID from the input
+    if (!newCoinSymbol || !newCoinGeckoId) return; // Exit if any input is empty
+
+    // Attempt to fetch data from Binance (simplified check)
+    const binanceCheck = await fetch(`https://api.binance.com/api/v3/klines?symbol=${newCoinSymbol}&interval=1d&limit=1`);
+    if (!binanceCheck.ok) return alert('Coin not found on Binance');
+
+    // No need for CoinGecko ID check since it's provided by the user
+
+    // Update the coinGeckoIdMap with the new mapping
+    coinGeckoIdMap[newCoinSymbol] = newCoinGeckoId;
+
+    // Add the new coin to the dropdown menu
+    const option = new Option(newCoinSymbol, newCoinSymbol);
+    document.getElementById('tokenSelect').add(option);
+
+    // Save the updated list of coins to localStorage
+    const existingCoins = JSON.parse(localStorage.getItem('coins')) || [];
+    localStorage.setItem('coins', JSON.stringify([...existingCoins, newCoinSymbol]));
+}
